@@ -90,6 +90,7 @@ class MoviesView(Resource):
         else:
             all_movie = db.session.query(Movie).all()
             return movies_schema.dump(all_movie), 200
+
 @movies_ns.route('/<int:mid>')
 class MovieView(Resource):
     def get(self, mid: int):
@@ -98,6 +99,18 @@ class MovieView(Resource):
             return movie_schema.dump(movie), 200
         except Exception:
             return "", 404
+
+@directors_ns.route('/')
+class DirectorsView(Resource):
+    def get(self):
+        directors = db.session.query(Director).all()
+        return directors_scheme.dump(directors), 200
+@genres_ns.route('/')
+class GenresView(Resource):
+    def get(self):
+        genres = db.session.query(Genre).all()
+        return genre_scheme.dump(genres)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
